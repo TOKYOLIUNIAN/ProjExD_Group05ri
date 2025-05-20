@@ -1,4 +1,6 @@
 import pygame
+import sys  # ← 新加的
+
 
 # 画面のサイズ
 SCREEN_WIDTH = 1100
@@ -14,6 +16,22 @@ GREEN = (0, 255, 0)
 # ブロックの上端のy座標（背景画像に合わせて調整）
 GROUND_Y = 610  # 必要に応じて微調整してください
 
+TILE_SIZE = 50  # ← 加在这里，表示每块地砖的宽度
+
+
+
+# 1 是地面，0 是坑（落ちったらGame Over）
+ground_tiles = [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1,1, 1, 1, 1, 1, 1, 1,1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1,1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1,1, 1, 1, 1, 1, 1, 1,1,
+      1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 1, 1, 1, 1, 1, 1
+]
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -28,6 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_power = -20
         self.is_jumping = False
         self.world_x = 50  # ワールド座標
+        self.is_alive = True  # プレイヤーの生死状態 
 
     def update(self):
         # 左右移動
@@ -43,6 +62,14 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = GROUND_Y
             self.speed_y = 0
             self.is_jumping = False
+                    # 掉进坑的判定
+            tile_index = self.world_x // TILE_SIZE
+            if 0 <= tile_index < len(ground_tiles):
+                if ground_tiles[int(tile_index)] == 0 and self.rect.bottom >= GROUND_Y:
+                    print("Game Over: 落坑了")
+                    pygame.quit()
+                    sys.exit()
+
 
     def jump(self):
         if not self.is_jumping:
@@ -115,6 +142,12 @@ def main():
         clock.tick(FPS)
 
     pygame.quit()
+
+
+
+
+
+
 
 if __name__ == '__main__':
     main()
