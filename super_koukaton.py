@@ -43,7 +43,7 @@ game_over_sound = None
 # 地图 - 全部设为1（无坑）
 ground_tiles = [1] * 200  # 创建200个地面块
 
-class Player(pygame.sprite.Sprite):
+class Bird(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.load_images()
@@ -348,6 +348,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("スーパーマリオ風ゲーム")
+    pygame.display.set_caption("スーパーこうかとんブラザーズ")
     clock = pygame.time.Clock()
 
     # 加载音效
@@ -373,7 +374,7 @@ def main():
     fireballs = pygame.sprite.Group()
 
     # 创建玩家
-    player = Player()
+    player = Bird()
     all_sprites.add(player)
 
     # 创建金币（更多且分布更广）
@@ -409,6 +410,11 @@ def main():
                     player.jump()
                 if event.key == pygame.K_x:  # X键发射火球
                     player.shoot_fireball()
+                    player.speed_x = -5
+                if event.key == pygame.K_RIGHT:
+                    player.speed_x = 5
+                if event.key == pygame.K_SPACE:
+                    player.jump()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT and player.speed_x < 0:
                     player.speed_x = 0

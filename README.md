@@ -38,7 +38,3 @@
 - 登場キャラの決定
 - アイテム決定
 
-### メモ
-* 主人公の変数名はkoukaton_bro
-* 敵の変数名はそれぞれ、no_koukaton,no_kuribo
-* アイテムの変数名はkinokoukaton,starton
